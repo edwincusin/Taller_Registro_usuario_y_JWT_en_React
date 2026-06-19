@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config/apiConfig";
 
 function Registrar() {
 
@@ -7,32 +9,64 @@ function Registrar() {
     const [rol, setRol] = useState('');
     const [errores, setErrores] = useState({});
 
+    const navigate = useNavigate();
+
+    //MANEJO DE ERRORES
+    const [error, setError] = useState('');
+    const [mensaje, setMensaje] = useState('');
 
     //FUNCION PARA MANEJAR GUARDAR
-    const manejarGuardar = (e) => {
+    const manejarGuardar = async (e) => {
         e.preventDefault();
+        setError('');
+        setMensaje('');
         const erroresActuales = validarCampos();
         if (Object.keys(erroresActuales).length > 0) {
             return;
+        }
+        
+        try {
+            const response = await fetch(`${API_BASE_URL}auth/registrar`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userName:username, password, rol })
+                }
+            );
+            console.log("captura fetch");
+
+            if (response.status !== 201) {
+                throw new Error("Error al intentar guardar")
+            }
+
+
+            setMensaje("USUARIO CREADO CON EXITO");
+
+            setTimeout(() => {
+                navigate('/login')
+            }, 2000);
+
+        } catch (error) {
+            setError(error.message);
         }
     }
 
     //FUNCION PARA VALIDAR CAMPOS
     function validarCampos() {
 
-        let error = {};
+        let err = {};
 
         if (username.trim() === '') {
-            error.username = "Campo vacio"
+            err.username = "Campo vacio"
         }
-        if (password.trim() == '' || password.length < 8) {
-            error.password = "Campo incompleto, min 8 caracteres"
+        if (password.trim() === '' || password.length < 8) {
+            err.password = "Campo incompleto, min 8 caracteres"
         }
-        if (rol.trim() == '') {
-            error.rol = "Campo obligatorio"
+        if (rol.trim() === '') {
+            err.rol = "Campo obligatorio"
         }
-        setErrores(error);
-        return error;
+        setErrores(err);
+        return err;
     }
 
     return (
@@ -47,7 +81,7 @@ function Registrar() {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="Ejem: EDWINCSN"
-                        
+
                     />
                 </div>
                 {errores.username && <p>{errores.username}</p>}
@@ -57,7 +91,7 @@ function Registrar() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="cadena de minimo 8 caracteres"
-                        
+
                     />
                 </div>
                 {errores.password && <p>{errores.password}</p>}
@@ -67,7 +101,7 @@ function Registrar() {
                     <select
                         value={rol}
                         onChange={(e) => setRol(e.target.value)}
-                        
+
                     >
                         <option value="" disabled>Seleccione un rol</option>
                         <option value="ADMIN">Administrador</option>
@@ -77,6 +111,10 @@ function Registrar() {
                 {errores.rol && <p>{errores.rol}</p>}
                 <div>
                     <button type="submit" >Guardar</button>
+                </div>
+                <div>
+                    {error && <p>{error}</p>}
+                    {mensaje && <p>{mensaje}</p>}
                 </div>
 
             </div>
