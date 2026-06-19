@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/apiConfig";
 
@@ -76,10 +76,17 @@ function Login() {
                         required
                     />
                 </div>
+                <div>
+                    {error && <p>{error}</p>}
+                </div>
+                <div>
+                    <button type="submit">Ingresar</button>
+                </div>
 
-                {error && <p>{error}</p>}
+                <div>
+                    <Link to={"/registrar"}>Crear cuenta</Link>
+                </div>
 
-                <button type="submit">Ingresar</button>
             </form>
         </div>
     )
