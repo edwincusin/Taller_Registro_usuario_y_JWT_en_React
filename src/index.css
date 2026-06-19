@@ -1,111 +1,383 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+/* =========================
+   RESET
+========================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+:root{
+  --primary:#00c8ff;
+  --secondary:#0066ff;
+  --success:#00ff9d;
+  --danger:#ff4d6d;
+  --dark:#0b1120;
+  --card:rgba(15,23,42,.88);
+  --border:rgba(0,200,255,.25);
+  --text:#e2e8f0;
+}
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* =========================
+   BODY CYBERTRON
+========================= */
+body{
+  font-family:'Orbitron',sans-serif;
+  min-height:100vh;
+  color:var(--text);
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0,200,255,.25), transparent 25%),
+    radial-gradient(circle at 85% 15%, rgba(0,102,255,.25), transparent 30%),
+    radial-gradient(circle at 50% 80%, rgba(0,255,157,.15), transparent 30%),
+    linear-gradient(
+      135deg,
+      #020617 0%,
+      #0f172a 40%,
+      #111827 100%
+    );
+
+  background-size:400% 400%;
+  animation: cyberBg 18s ease infinite;
+}
+
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
+.auth-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+/* =========================
+   CARD
+========================= */
+.auth-card{
+  width:100%;
+  max-width:500px;
+
+  background:var(--card);
+
+  backdrop-filter:blur(12px);
+
+  border:1px solid var(--border);
+
+  border-radius:24px;
+
+  padding:35px;
+
+  box-shadow:
+    0 0 25px rgba(0,200,255,.15),
+    0 0 50px rgba(0,102,255,.08);
+
+  position:relative;
+  overflow:hidden;
+}
+
+.auth-card::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0,200,255,.1),
+      transparent
+    );
+
+  transform:translateX(-100%);
+  animation: scan 5s linear infinite;
+}
+
+/* =========================
+   TITULOS
+========================= */
+.auth-header{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.auth-header h1,
+.auth-header h2{
+  color:white;
+
+  letter-spacing:3px;
+
+  text-transform:uppercase;
+
+  text-shadow:
+    0 0 10px var(--primary),
+    0 0 20px var(--primary);
+}
+
+/* =========================
+   FORMULARIOS
+========================= */
+.form-group{
+  display:flex;
+  flex-direction:column;
+  margin-bottom:18px;
+}
+
+.form-group label{
+  margin-bottom:8px;
+  font-size:.9rem;
+  color:#cbd5e1;
+}
+
+.form-input{
+  padding:14px;
+
+  border-radius:12px;
+
+  border:1px solid rgba(255,255,255,.15);
+
+  background:rgba(255,255,255,.05);
+
+  color:white;
+
+  font-family:'Orbitron',sans-serif;
+
+  transition:.3s;
+}
+
+.form-input:focus{
+  outline:none;
+
+  border-color:var(--primary);
+
+  box-shadow:
+    0 0 10px rgba(0,200,255,.4),
+    0 0 20px rgba(0,200,255,.2);
+}
+
+.form-input::placeholder{
+  color:#64748b;
+}
+
+/* =========================
+   BOTONES
+========================= */
+.form-actions{
+  margin-top:25px;
+}
+
+.btn-primary,
+.btn-secondary{
+  width:100%;
+
+  border:none;
+
+  border-radius:12px;
+
+  padding:14px;
+
+  cursor:pointer;
+
+  font-family:'Orbitron',sans-serif;
+
+  font-weight:700;
+
+  text-transform:uppercase;
+
+  transition:.3s;
+}
+
+.btn-primary{
+  background:linear-gradient(
+    90deg,
+    var(--primary),
+    var(--secondary)
+  );
+
+  color:white;
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 15px rgba(0,200,255,.6),
+    0 0 30px rgba(0,200,255,.3);
+}
+
+.btn-secondary{
+  background:#1e293b;
+  color:white;
+}
+
+.btn-secondary:hover{
+  background:#334155;
+}
+
+/* =========================
+   MENSAJES
+========================= */
+.form-feedback{
+  margin-top:20px;
+}
+
+.msg-error{
+  color:var(--danger);
+
+  font-size:.85rem;
+
+  text-shadow:
+    0 0 8px rgba(255,77,109,.5);
+}
+
+.msg-success{
+  color:var(--success);
+
+  font-size:.85rem;
+
+  text-shadow:
+    0 0 8px rgba(0,255,157,.5);
+}
+
+.field-error{
+  color:var(--danger);
+
+  margin-bottom:12px;
+
+  font-size:.8rem;
+}
+
+/* =========================
+   PERFIL
+========================= */
+.profile-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.profile-info{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.profile-info p{
+  padding:15px;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* =========================
+   LINKS
+========================= */
+.auth-switch{
+  margin-top:20px;
+  text-align:center;
+}
+
+.auth-switch a{
+  color:var(--primary);
+  text-decoration:none;
+}
+
+.auth-switch a:hover{
+  text-shadow:
+    0 0 10px var(--primary);
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+@keyframes cyberBg{
+  0%{
+    background-position:0% 50%;
+  }
+  50%{
+    background-position:100% 50%;
+  }
+  100%{
+    background-position:0% 50%;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+@keyframes scan{
+  from{
+    transform:translateX(-100%);
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  to{
+    transform:translateX(100%);
   }
 }
 
-body {
-  margin: 0;
-}
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:768px){
 
-#app {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+  .auth-card{
+    padding:25px;
+  }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  .profile-header{
+    flex-direction:column;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+
+
+/* BOTÓN CANCELAR */
+.btn-danger{
+  width:100%;
+
+  border:none;
+  border-radius:12px;
+
+  padding:14px;
+
+  cursor:pointer;
+
+  font-family:'Orbitron',sans-serif;
+
+  font-weight:700;
+
+  text-transform:uppercase;
+
+  color:white;
+
+  background:linear-gradient(
+    90deg,
+    #dc2626,
+    #b91c1c
+  );
+
+  transition:all .3s ease;
+
+  box-shadow:
+    0 0 10px rgba(220,38,38,.3);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.btn-danger:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 15px rgba(220,38,38,.6),
+    0 0 30px rgba(220,38,38,.3);
+
+  background:linear-gradient(
+    90deg,
+    #ef4444,
+    #dc2626
+  );
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.btn-danger:active{
+  transform:scale(.98);
 }

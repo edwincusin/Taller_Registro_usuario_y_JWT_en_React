@@ -52,7 +52,7 @@ function Registrar() {
             }
 
             // 4. Éxito: muestra mensaje y redirige a login tras 2 segundos
-            setMensaje("USUARIO CREADO CON EXITO");
+            setMensaje("USUARIO CREADO CON ÉXITO");
             setTimeout(() => {
                 navigate('/login')
             }, 2000);
@@ -70,10 +70,10 @@ function Registrar() {
         let err = {};
 
         if (username.trim() === '') {
-            err.username = "Campo vacio"
+            err.username = "Campo vacío"
         }
         if (password.trim() === '' || password.length < 8) {
-            err.password = "Campo incompleto, min 8 caracteres"
+            err.password = "Cadena de mínimo 8 caracteres"
         }
         if (rol.trim() === '') {
             err.rol = "Campo obligatorio"
@@ -86,34 +86,37 @@ function Registrar() {
     // VISTA — formulario de registro
     // ═══════════════════════════════════════════
     return (
-        <form onSubmit={manejarGuardar}>
-            <div>
-                <div>
-                    <h2>Registro de cuenta</h2>
+        <div className="auth-page">
+            <form className="auth-card" onSubmit={manejarGuardar}>
+                <div className="auth-header">
+                    <h2>Registro de usuario</h2>
                 </div>
-                <div>
-                    <label>Usuario* </label>
+                <div className="form-group">
+                    <label>Usuario*: </label>
                     <input type="text"
+                        className="form-input"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="Ejem: EDWINCSN"
                     />
                 </div>
-                {errores.username && <p>{errores.username}</p>} {/* error de validación local */}
+                {errores.username && <p className="field-error">{errores.username}</p>} {/* error de validación local */}
 
-                <div>
-                    <label>Contraseña* </label>
+                <div className="form-group">
+                    <label>Contraseña*: </label>
                     <input type="text"
+                        className="form-input"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="cadena de minimo 8 caracteres"
+                        placeholder="Cadena de mínimo 8 caracteres"
                     />
                 </div>
-                {errores.password && <p>{errores.password}</p>}
+                {errores.password && <p className="field-error">{errores.password}</p>}
 
-                <div>
-                    <label>Rol* </label>
+                <div className="form-group">
+                    <label>Rol*: </label>
                     <select
+                        className="form-input"
                         value={rol}
                         onChange={(e) => setRol(e.target.value)}
                     >
@@ -122,18 +125,25 @@ function Registrar() {
                         <option value="USER">Usuario</option>
                     </select>
                 </div>
-                {errores.rol && <p>{errores.rol}</p>}
+                {errores.rol && <p className="field-error">{errores.rol}</p>}
 
-                <div>
-                    <button type="submit">Guardar</button>
+                <div className="form-actions">
+                    <button className="btn-primary" type="submit">Guardar</button>
+                </div>
+                <div className="form-actions">
+                    <button className="btn-danger" type="button"
+                        onClick={()=>{
+                            navigate('/login')
+                        }}
+                    >Cancelar</button>
                 </div>
 
-                <div>
-                    {error && <p>{error}</p>}     {/* error del backend (ej: usuario duplicado) */}
-                    {mensaje && <p>{mensaje}</p>} {/* mensaje de éxito */}
+                <div className="form-feedback">
+                    {error && <p className="msg-error">{error}</p>}     {/* error del backend (ej: usuario duplicado) */}
+                    {mensaje && <p className="msg-success">{mensaje}</p>} {/* mensaje de éxito */}
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     );
 }
 

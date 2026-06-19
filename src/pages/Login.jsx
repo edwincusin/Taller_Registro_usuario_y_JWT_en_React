@@ -56,35 +56,38 @@ function Login() {
     // VISTA — formulario de login
     // ═══════════════════════════════════════════
     return (
-        <div>
-            <h1>Iniciar sesion</h1>
-
-            <form onSubmit={manejarSubmit}>
-                <div>
+        <div className="auth-page">
+            <form className="auth-card" onSubmit={manejarSubmit}>
+                <div className="auth-header">
+                    <h1>Iniciar sesión</h1>
+                </div>
+                <div className="form-group">
                     <label>Usuario:</label>
                     <input type="text"
+                        className="form-input"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Contraseña:</label>
                     <input type="text"
+                        className="form-input"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    {error && <p>{error}</p>}
+                <div className="form-feedback">
+                    {error && <p className="msg-error">{error}</p>}
                 </div>
-                <div>
-                    <button type="submit">Ingresar</button>
+                <div className="form-actions">
+                    <button className="btn-primary" type="submit">Ingresar</button>
                 </div>
 
-                <div>
-                    <Link to={"/registrar"}>Crear cuenta</Link>
+                <div className="auth-switch">
+                    ¿No tienes cuenta?  <Link to={"/registrar"}>Crear cuenta</Link>
                 </div>
 
             </form>

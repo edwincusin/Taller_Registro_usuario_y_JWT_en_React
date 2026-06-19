@@ -73,23 +73,25 @@ function Perfil() {
     // VISTA
     // ═══════════════════════════════════════════
     return (
-        <div>
-            <div>
-                <h2>PERFIL DE USUARIO</h2>
-                <button onClick={manejarLogout}>Cerrar sesion</button> {/* dispara logout en Spring Boot y limpia contexto */}
-            </div>
-
-            {error && <p>{error}</p>} {/* muestra error solo si falló la carga del perfil */}
-
-            {datosPerfil && ( // renderiza solo cuando Spring Boot ya respondió con los datos
-                <div>
-                    <p>{datosPerfil.Mensaje}</p>        {/* mensaje de bienvenida que manda Spring Boot */}
-                    <p>{datosPerfil.Rol_detectado}</p>  {/* rol del usuario ej: ADMIN, USER */}
-                    <p>{datosPerfil.Usuario}</p>        {/* nombre de usuario autenticado */}
-                    <p>{datosPerfil.Status}</p>         {/* estado de la sesión ej: activo */}
+        <div className="auth-page">
+            <div className="auth-card">
+                <div className="profile-header">
+                    <h2>PERFIL DE USUARIO</h2>
+                    <button className="btn-secondary" onClick={manejarLogout}>Cerrar sesión</button> {/* dispara logout en Spring Boot y limpia contexto */}
                 </div>
-            )}
 
+                {error && <p className="msg-error">{error}</p>} {/* muestra error solo si falló la carga del perfil */}
+
+                {datosPerfil && ( // renderiza solo cuando Spring Boot ya respondió con los datos
+                    <div className="profile-info">
+                        <p>{datosPerfil.Mensaje}</p>        {/* mensaje de bienvenida que manda Spring Boot */}
+                        <p>{datosPerfil.Rol_detectado}</p>  {/* rol del usuario ej: ADMIN, USER */}
+                        <p>{datosPerfil.Usuario}</p>        {/* nombre de usuario autenticado */}
+                        <p>{datosPerfil.Status}</p>         {/* estado de la sesión ej: activo */}
+                    </div>
+                )}
+
+            </div>
         </div>
     )
 }
