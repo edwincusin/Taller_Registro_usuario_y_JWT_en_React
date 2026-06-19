@@ -381,3 +381,38 @@ body{
 .btn-danger:active{
   transform:scale(.98);
 }
+
+/* ICONOS */
+
+.title-icon{
+  color:#00c8ff;
+
+  filter:
+    drop-shadow(0 0 8px #00c8ff)
+    drop-shadow(0 0 15px #00c8ff);
+
+  margin-right:10px;
+}
+
+.input-icon{
+  color:#00c8ff;
+  margin-right:8px;
+}
+
+.msg-success svg{
+  color:#00ff9d;
+}
+
+.msg-error svg{
+  color:#ff4d6d;
+}
+
+.profile-info svg{
+  color:#00c8ff;
+}
+
+.btn-primary svg,
+.btn-danger svg,
+.btn-secondary svg{
+  margin-right:8px;
+}

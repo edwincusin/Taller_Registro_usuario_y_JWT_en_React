@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config/apiConfig"; // URL base del backend Spring Boot
+import {
+    FaUserPlus,
+    FaUser,
+    FaLock,
+    FaUserShield,
+    FaSave,
+    FaTimesCircle,
+    FaCheckCircle,
+    FaExclamationTriangle
+} from "react-icons/fa";
 
 function Registrar() {
 
@@ -89,10 +99,16 @@ function Registrar() {
         <div className="auth-page">
             <form className="auth-card" onSubmit={manejarGuardar}>
                 <div className="auth-header">
-                    <h2>Registro de usuario</h2>
+                    <h2>
+                        <FaUserPlus className="title-icon" />
+                        Registro de usuario
+                    </h2>
                 </div>
                 <div className="form-group">
-                    <label>Usuario*: </label>
+                    <label>
+                        <FaUser className="input-icon" />
+                        Usuario*:
+                    </label>
                     <input type="text"
                         className="form-input"
                         value={username}
@@ -103,8 +119,11 @@ function Registrar() {
                 {errores.username && <p className="field-error">{errores.username}</p>} {/* error de validación local */}
 
                 <div className="form-group">
-                    <label>Contraseña*: </label>
-                    <input type="text"
+                    <label>
+                        <FaLock className="input-icon" />
+                        Contraseña*:
+                    </label>
+                    <input type="password"
                         className="form-input"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -114,7 +133,10 @@ function Registrar() {
                 {errores.password && <p className="field-error">{errores.password}</p>}
 
                 <div className="form-group">
-                    <label>Rol*: </label>
+                    <label>
+                        <FaUserShield className="input-icon" />
+                        Rol*:
+                    </label>
                     <select
                         className="form-input"
                         value={rol}
@@ -128,19 +150,38 @@ function Registrar() {
                 {errores.rol && <p className="field-error">{errores.rol}</p>}
 
                 <div className="form-actions">
-                    <button className="btn-primary" type="submit">Guardar</button>
+                    <button className="btn-primary" type="submit">
+                        <FaSave />
+                        &nbsp;Guardar
+                    </button>
                 </div>
                 <div className="form-actions">
-                    <button className="btn-danger" type="button"
-                        onClick={()=>{
-                            navigate('/login')
-                        }}
-                    >Cancelar</button>
+                    <button
+                        className="btn-danger"
+                        type="button"
+                        onClick={() => navigate('/login')}
+                    >
+                        <FaTimesCircle />
+                        &nbsp;Cancelar
+                    </button>
                 </div>
 
                 <div className="form-feedback">
-                    {error && <p className="msg-error">{error}</p>}     {/* error del backend (ej: usuario duplicado) */}
-                    {mensaje && <p className="msg-success">{mensaje}</p>} {/* mensaje de éxito */}
+                    {error &&
+                        <p className="msg-error">
+                            <FaExclamationTriangle />
+                            &nbsp;{error}
+                        </p>
+                    }     {/* error del backend (ej: usuario duplicado) */}
+
+                    {mensaje &&
+                        <p className="msg-success">
+                            <FaCheckCircle />
+                            &nbsp;{mensaje}
+                        </p>
+                    }
+
+                    {/* mensaje de éxito */}
                 </div>
             </form>
         </div>

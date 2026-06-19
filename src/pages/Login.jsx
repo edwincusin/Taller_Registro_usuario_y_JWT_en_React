@@ -2,6 +2,12 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/apiConfig";
+import {
+    FaRobot,
+    FaUser,
+    FaLock,
+    FaSignInAlt
+} from "react-icons/fa";
 
 function Login() {
 
@@ -59,10 +65,16 @@ function Login() {
         <div className="auth-page">
             <form className="auth-card" onSubmit={manejarSubmit}>
                 <div className="auth-header">
-                    <h1>Iniciar sesión</h1>
+                    <h1>
+                        <FaRobot className="title-icon" />
+                        Iniciar sesión
+                    </h1>
                 </div>
                 <div className="form-group">
-                    <label>Usuario:</label>
+                    <label>
+                        <FaUser className="input-icon" />
+                        Usuario:
+                    </label>
                     <input type="text"
                         className="form-input"
                         value={username}
@@ -71,8 +83,11 @@ function Login() {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Contraseña:</label>
-                    <input type="text"
+                    <label>
+                        <FaLock className="input-icon" />
+                        Contraseña:
+                    </label>
+                    <input type="password"
                         className="form-input"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -80,10 +95,18 @@ function Login() {
                     />
                 </div>
                 <div className="form-feedback">
-                    {error && <p className="msg-error">{error}</p>}
+                    {error &&
+                        <p className="msg-error">
+                            <FaExclamationTriangle />
+                            &nbsp;{error}
+                        </p>
+                    }
                 </div>
                 <div className="form-actions">
-                    <button className="btn-primary" type="submit">Ingresar</button>
+                    <button className="btn-primary" type="submit">
+                        <FaSignInAlt />
+                        &nbsp;Ingresar
+                    </button>
                 </div>
 
                 <div className="auth-switch">

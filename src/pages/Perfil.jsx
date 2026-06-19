@@ -2,6 +2,13 @@ import { useEffect, useState } from "react" // useEffect=ejecuta código al carg
 import { useAuth } from "../context/AuthContext"; // trae token y logout del contexto global
 import { useNavigate } from "react-router-dom"; // redirige al login después del logout
 import { API_BASE_URL } from "../config/apiConfig"; // URL base de Spring Boot ej: http://localhost:8080
+import {
+    FaUserCircle,
+    FaShieldAlt,
+    FaUserCog,
+    FaPowerOff,
+    FaCheckCircle
+} from "react-icons/fa";
 
 function Perfil() {
 
@@ -76,8 +83,18 @@ function Perfil() {
         <div className="auth-page">
             <div className="auth-card">
                 <div className="profile-header">
-                    <h2>PERFIL DE USUARIO</h2>
-                    <button className="btn-secondary" onClick={manejarLogout}>Cerrar sesión</button> {/* dispara logout en Spring Boot y limpia contexto */}
+                    <h2>
+                        <FaUserCircle className="title-icon" />
+                        PERFIL DE USUARIO
+                    </h2>
+                    
+                    <button
+                        className="btn-secondary"
+                        onClick={manejarLogout}
+                    >
+                        <FaPowerOff />
+                        &nbsp;Cerrar sesión
+                    </button> {/* dispara logout en Spring Boot y limpia contexto */}
                 </div>
 
                 {error && <p className="msg-error">{error}</p>} {/* muestra error solo si falló la carga del perfil */}
