@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/apiConfig"; // URL base de Spring Boot ej: http://localhost:8080
+import ListaVehiculos from "../components/ListaVehiculos";
 
 function Vehiculos() {
 
@@ -19,12 +20,42 @@ function Vehiculos() {
     // Token JWT del usuario autenticado, viene del contexto global de auth
     const { token } = useAuth();
 
+    const [listaVehiculos, setlistaVehiculos] = useState([]);
+
+    //funcion asyn cargar vehiculos
+    const cargarVehiculos = useCallback (async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/vehiculo/listar`,
+                {
+                    method: 'GET',
+                    // Token JWT requerido porque el endpoint está protegido
+                    'Authorization': `Bearer ${token}`
+                }
+            )
+
+            if (!response.ok) {
+                throw new Error("No se pudo obtner la lista de vehiculos")
+            }
+
+            const datosParseadosJson=response.json();
+            setlistaVehiculos(datosParseadosJson);
+        } catch (error) {
+            setErrorMsg(error.message);
+        }
+    },[token])
+
+    useEffect(()=>{
+        cargarVehiculos();
+    },[cargarVehiculos])
+
     // Se ejecuta cada vez que el usuario selecciona un archivo en el input type="file"
     const manejarArchivo = (e) => {
         // e.target.files es un FileList (aunque solo se permita 1 archivo),
         // por eso se accede al índice [0] para obtener el File real
         setArchivo(e.target.files[0])
     }
+
+
 
     // Se ejecuta al enviar el formulario
     const manejarSubmit = async (e) => {
@@ -73,6 +104,7 @@ function Vehiculos() {
             setMarca("");
             setArchivo(null);
             setModelo("");
+            cargarVehiculos();
 
         } catch (error) {
             // Captura tanto errores de red (fetch falla) como el throw manual de arriba
@@ -123,7 +155,11 @@ function Vehiculos() {
                 {errorMsg && <p>{errorMsg}</p>}
                 {succesMsg && <p>{succesMsg}</p>}
             </div>
-
+            <div>
+                <ListaVehiculos
+                vehiculos={listaVehiculos}
+                />
+            </div>
         </div>
     )
 }
