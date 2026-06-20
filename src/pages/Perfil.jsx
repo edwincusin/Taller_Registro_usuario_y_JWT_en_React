@@ -87,7 +87,7 @@ function Perfil() {
                         <FaUserCircle className="title-icon" />
                         PERFIL DE USUARIO
                     </h2>
-                    
+
                     <button
                         className="btn-secondary"
                         onClick={manejarLogout}
@@ -95,6 +95,10 @@ function Perfil() {
                         <FaPowerOff />
                         &nbsp;Cerrar sesión
                     </button> {/* dispara logout en Spring Boot y limpia contexto */}
+                    <button
+                        className="btn-secondary"
+                        onClick={()=>navigate('/vehiculos')}
+                    > Gestionar Vehiculos </button>
                 </div>
 
                 {error && <p className="msg-error">{error}</p>} {/* muestra error solo si falló la carga del perfil */}

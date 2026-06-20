@@ -4,6 +4,7 @@ import Perfil from "./pages/Perfil"; // página protegida → solo accesible con
 import Login from "./pages/Login"; // página pública → accesible sin token
 import ProtectedRoute from "./components/ProtectedRoute"; // guardián → verifica token antes de dejar pasar
 import Registrar from "./pages/Registrar";
+import Vehiculos from "./pages/vehiculos";
 
 export function App() {
 
@@ -24,20 +25,24 @@ export function App() {
             element={<Login />}
           />
           {/* RUTAS PROTEGIDAS — ProtectedRoute verifica el token antes de mostrar */}
-          <Route element={<ProtectedRoute/>}>
+          <Route element={<ProtectedRoute />}>
             <Route
               path="/perfil"
-              element={<Perfil/>}
+              element={<Perfil />}
+            />
+            <Route
+              path="/vehiculos"
+              element={<Vehiculos />}
             />
           </Route>
           <Route
             path="/registrar"
-            element={<Registrar/>}
+            element={<Registrar />}
           />
           {/* RUTA COMODÍN — cualquier URL desconocida redirige al login */}
           <Route
             path="*"
-            element={<Navigate to="/login" replace/>}
+            element={<Navigate to="/login" replace />}
           />
         </Routes>
       </BrowserRouter>
