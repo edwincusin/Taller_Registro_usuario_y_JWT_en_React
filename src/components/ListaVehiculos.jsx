@@ -16,7 +16,7 @@ function ListaVehiculos({ vehiculos }) {
             for (const vehiculo of vehiculos) {
                 try {
                     // Pide la foto protegida del vehículo, enviando el JWT
-                    const response = await fetch(`${API_BASE_URL}/auth/vehiculo/${vehiculo.id}/foto`, {
+                    const response = await fetch(`${API_BASE_URL}auth/vehiculo/${vehiculo.id}/foto`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`

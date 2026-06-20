@@ -20,16 +20,19 @@ function Vehiculos() {
     // Token JWT del usuario autenticado, viene del contexto global de auth
     const { token } = useAuth();
 
+    // NUEVO: estado donde se guarda el array de vehículos traídos del backend
     const [listaVehiculos, setlistaVehiculos] = useState([]);
 
-    //funcion asyn cargar vehiculos
+    // NUEVO: useCallback memoriza la función para que no se recree en cada render.
+    // Es necesario porque "cargarVehiculos" es dependencia del useEffect de abajo;
+    // sin useCallback se generaría un loop infinito (nueva función -> efecto se dispara -> nuevo render -> nueva función...)
     const cargarVehiculos = useCallback (async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/vehiculo/listar`,
+            const response = await fetch(`${API_BASE_URL}auth/vehiculo/listar`,
                 {
                     method: 'GET',
                     // Token JWT requerido porque el endpoint está protegido
-                    'Authorization': `Bearer ${token}`
+                    headers:{'Authorization': `Bearer ${token}`}
                 }
             )
 
@@ -37,13 +40,17 @@ function Vehiculos() {
                 throw new Error("No se pudo obtner la lista de vehiculos")
             }
 
-            const datosParseadosJson=response.json();
+            // await es obligatorio: response.json() devuelve una Promise,
+            // sin await se guardaría la Promise en el estado en vez del array real
+            const datosParseadosJson=await response.json();
             setlistaVehiculos(datosParseadosJson);
         } catch (error) {
             setErrorMsg(error.message);
         }
-    },[token])
+    },[token]) // se recrea solo si cambia el token (ej. nuevo login)
 
+    // NUEVO: dispara la carga de vehículos al montar el componente
+    // (y de nuevo si cargarVehiculos cambia, lo cual solo pasa si cambia el token)
     useEffect(()=>{
         cargarVehiculos();
     },[cargarVehiculos])
@@ -79,7 +86,7 @@ function Vehiculos() {
         formData.append("modelo", modelo);  // debe coincidir con @RequestParam("modelo")
 
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/vehiculo/registrar`, {
+            const response = await fetch(`${API_BASE_URL}auth/vehiculo/registrar`, {
                 method: 'POST',
                 headers: {
                     // Token JWT requerido porque el endpoint está protegido
@@ -104,6 +111,9 @@ function Vehiculos() {
             setMarca("");
             setArchivo(null);
             setModelo("");
+
+            // NUEVO: refresca la lista de vehículos para que el recién registrado
+            // aparezca de inmediato, sin necesidad de recargar la página
             cargarVehiculos();
 
         } catch (error) {
@@ -156,6 +166,8 @@ function Vehiculos() {
                 {succesMsg && <p>{succesMsg}</p>}
             </div>
             <div>
+                {/* NUEVO: se pasa la lista como prop; ListaVehiculos descarga
+                    cada foto protegida y renderiza la tarjeta de cada vehículo */}
                 <ListaVehiculos
                 vehiculos={listaVehiculos}
                 />
