@@ -4,7 +4,7 @@ import Perfil from "./pages/Perfil"; // página protegida → solo accesible con
 import Login from "./pages/Login"; // página pública → accesible sin token
 import ProtectedRoute from "./components/ProtectedRoute"; // guardián → verifica token antes de dejar pasar
 import Registrar from "./pages/Registrar";
-import Vehiculos from "./pages/vehiculos";
+import Vehiculos from "./pages/Vehiculos";
 
 export function App() {
 
