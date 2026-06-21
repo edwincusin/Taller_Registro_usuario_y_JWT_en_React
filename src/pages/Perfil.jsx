@@ -97,7 +97,11 @@ function Perfil() {
                     </button> {/* dispara logout en Spring Boot y limpia contexto */}
                     <button
                         className="btn-secondary"
-                        onClick={()=>navigate('/vehiculos')}
+                        onClick={() => navigate('/vehiculos')}
+                    > Gestionar Vehiculos </button>
+                    <button
+                        className="btn-secondary"
+                        onClick={() => navigate('/registrarPeliculas')}
                     > Gestionar Vehiculos </button>
                 </div>
 
