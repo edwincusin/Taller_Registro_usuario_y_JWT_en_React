@@ -101,8 +101,8 @@ function Perfil() {
                     > Gestionar Vehiculos </button>
                     <button
                         className="btn-secondary"
-                        onClick={() => navigate('/registrarPeliculas')}
-                    > Gestionar Vehiculos </button>
+                        onClick={() => navigate('/peliculas')}
+                    > Gestionar Peliculas </button>
                 </div>
 
                 {error && <p className="msg-error">{error}</p>} {/* muestra error solo si falló la carga del perfil */}

@@ -5,7 +5,7 @@ import Login from "./pages/Login"; // página pública → accesible sin token
 import ProtectedRoute from "./components/ProtectedRoute"; // guardián → verifica token antes de dejar pasar
 import Registrar from "./pages/Registrar";
 import Vehiculos from "./pages/Vehiculos";
-import RegistrarPeliculas from "./pages/RegistrarPeliculas";
+import Peliculas from "./pages/Peliculas";
 
 export function App() {
 
@@ -41,8 +41,8 @@ export function App() {
             element={<Registrar />}
           />{/*Registrar vehiculos*/}
           <Route
-            path="/registrarPeliculas"
-            element={<RegistrarPeliculas/>}
+            path="/peliculas"
+            element={<Peliculas/>}
           />{/*Registrar vehiculos*/}
           {/* RUTA COMODÍN — cualquier URL desconocida redirige al login */}
           <Route
