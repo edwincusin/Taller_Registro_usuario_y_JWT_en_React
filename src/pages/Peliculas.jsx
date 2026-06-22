@@ -221,6 +221,7 @@ function Peliculas() {
                 <div>
                     <ListarPeliculas
                         peliculas={peliculas}
+                        actualizarPel={cargarPeliculas}
                     />
                 </div>
 
