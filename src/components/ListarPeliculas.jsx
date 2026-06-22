@@ -11,6 +11,13 @@ function ListarPeliculas({ peliculas, actualizarPel }) {
     const [errorMsg, setErrorMsg] = useState("");
     const [succesMsg, setSucceMsg] = useState("");
 
+    const [peliculaAEditar, setPeliculaAEditar] = useState(null);
+
+    const [editTitulo, setEditTitulo] = useState("");
+    const [editGenero, setEditGenero] = useState("");
+    const [editSinopsis, setEditSinopsis] = useState("");
+    const [editArchivo, setEditArchivo] = useState(null);
+
     useEffect(() => {
         // Acumula las URLs creadas en este efecto para poder liberarlas en el cleanup
         const urlsCreadas = [];
@@ -91,8 +98,76 @@ function ListarPeliculas({ peliculas, actualizarPel }) {
                 setSucceMsg('');
             }, 3000)
         }
+    }
+
+    //PARTE PARA EDITAR UNA PELICULA
+    useEffect(() => {
+        if (peliculaAEditar) {
+            setEditTitulo(peliculaAEditar.titulo);
+            setEditGenero(peliculaAEditar.genero);
+            setEditSinopsis(peliculaAEditar.sinopis);
+            setEditArchivo(null);
+        } else {
+            setEditTitulo('');
+            setEditGenero('');
+            setEditSinopsis('');
+            setEditArchivo(null);
+        }
+    }, [peliculaAEditar]);
+
+    // Se ejecuta al enviar el formulario con datos modificados
+    const editarPelicula = async (e) => {
+        e.preventDefault();
+        // Limpiamos mensajes previos antes de un nuevo intento
+        setErrorMsg('');
+        setSucceMsg('');
 
 
+        // FormData es necesario porque se envía un archivo binario (multipart/form-data),
+        // no se puede mandar JSON normal cuando hay un File de por medio
+        const formData = new FormData();
+        if(editArchivo) {
+            formData.append("file", editArchivo);
+        }
+        formData.append("titulo", editTitulo);      // debe coincidir con @RequestParam("titulo")
+        formData.append("genero", editGenero);      // debe coincidir con @RequestParam("genero")
+        formData.append("sinopsis", editSinopsis);  // debe coincidir con @RequestParam("sinopsis")
+
+        try {
+            const response = await fetch(`${API_BASE_URL}auth/peliculas/${peliculaAEditar.id}`, {
+                method: 'PUT',
+                headers: {
+                    // Token JWT requerido porque el endpoint está protegido
+                    'Authorization': `Bearer ${token}`
+                },
+                // OJO: no se define 'Content-Type' manualmente.
+                // El navegador lo setea solo con el boundary correcto al usar FormData.
+                body: formData
+            });
+
+            // El backend responde JSON tanto en éxito como en error: { "Mensaje": "..." }
+            const datosRespuesta = await response.json();
+
+            if (!response.ok) {
+                // response.ok es false en status 4xx/5xx (ej. 500 del backend)
+                throw new Error(datosRespuesta.Mensaje)
+            }
+
+            setSucceMsg(datosRespuesta.Mensaje)
+
+            // NUEVO: refresca la lista de peliculas para que el recién registrado
+            // aparezca de inmediato, sin necesidad de recargar la página
+            actualizarPel();
+            setPeliculaAEditar(null)
+        } catch (error) {
+            // Captura tanto errores de red (fetch falla) como el throw manual de arriba
+            setErrorMsg(error.message)
+        } finally {
+            setTimeout(() => {
+                setErrorMsg('');
+                setSucceMsg('');
+            }, 3000)
+        }
     }
 
     return (
@@ -101,9 +176,6 @@ function ListarPeliculas({ peliculas, actualizarPel }) {
                 {errorMsg && <p className="pelicula-msg-error">{errorMsg}</p>}
                 {succesMsg && <p className="pelicula-msg-success">{succesMsg}</p>}
             </div>
-
-
-
             {peliculas.length === 0 ? (
                 <p className="pelicula-empty">No hay películas registradas</p>
             ) : (
@@ -121,7 +193,9 @@ function ListarPeliculas({ peliculas, actualizarPel }) {
                                     <p className="pelicula-card-sinopsis">{pelicula.sinopis}</p>
                                 </div>
                                 <div className="pelicula-card-acciones">
-                                    <button className="btn-editar">Editar</button>
+                                    <button className="btn-editar"
+                                        onClick={() => setPeliculaAEditar(pelicula)}
+                                    >Editar</button>
                                     <button className="btn-eliminar"
                                         onClick={() => eliminarPelicula(pelicula.id)}
                                     >Eliminar</button>
@@ -130,6 +204,87 @@ function ListarPeliculas({ peliculas, actualizarPel }) {
                         )
                     })}
                 </ul>
+            )}
+            {/* MODAL DE EDICIÓN — va aquí, fuera del map y del ternario */}
+            {peliculaAEditar && (
+                <div className="modal-overlay">
+                    <div className="modal-contenido">
+                        <div className="auth-header">
+                            <h2>Editar Película</h2>
+                        </div>
+
+                        <form className="formulario-pelicula" onSubmit={editarPelicula}>
+                            <div className="campo">
+                                <label htmlFor="editTitulo">Título</label>
+                                <input
+                                    type="text"
+                                    id="editTitulo"
+                                    placeholder="Título de la película"
+                                    required
+                                    value={editTitulo}
+                                    onChange={(e) => setEditTitulo(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="campo">
+                                <label htmlFor="editGenero">Género</label>
+                                <select id="editGenero"
+                                    value={editGenero}
+                                    onChange={(e) => setEditGenero(e.target.value)}
+                                >
+                                    <option value="" disabled>Selecciona un género</option>
+                                    <option value="Accion">Acción</option>
+                                    <option value="Comedia">Comedia</option>
+                                    <option value="Drama">Drama</option>
+                                    <option value="Terror">Terror</option>
+                                    <option value="CienciaFiccion">Ciencia ficción</option>
+                                    <option value="Fantasia">Fantasía</option>
+                                    <option value="Romance">Romance</option>
+                                    <option value="Suspenso">Suspenso</option>
+                                    <option value="Animacion">Animación</option>
+                                    <option value="Documental">Documental</option>
+                                </select>
+                            </div>
+
+                            <div className="campo">
+                                <label htmlFor="editSinopsis">Sinopsis</label>
+                                <textarea
+                                    id="editSinopsis"
+                                    rows={4}
+                                    placeholder="Breve descripción de la película..."
+                                    required
+                                    value={editSinopsis}
+                                    onChange={(e) => setEditSinopsis(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="campo">
+                                <label htmlFor="editFoto">Foto / Póster (opcional)</label>
+                                <input
+                                    type="file"
+                                    id="editFoto"
+                                    accept="image/*"
+                                    onChange={(e) => setEditArchivo(e.target.files[0])}
+                                />
+                                <small style={{ color: "#64748b", marginTop: "6px" }}>
+                                    Dejar vacío para mantener la foto actual
+                                </small>
+                            </div>
+
+                            <button type="submit" className="btn-guardar-pelicula">
+                                Guardar Cambios
+                            </button>
+                            <button
+                                type="button"
+                                className="btn-danger"
+                                onClick={() => setPeliculaAEditar(null)}
+                                style={{ marginTop: "10px" }}
+                            >
+                                Cancelar
+                            </button>
+                        </form>
+                    </div>
+                </div>
             )}
         </div>
     )

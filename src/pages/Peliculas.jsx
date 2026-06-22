@@ -45,7 +45,7 @@ function Peliculas() {
             )
 
             if (!response.ok) {
-                throw new Error("No se pudo obtner la lista de vehiculos")
+                throw new Error("No se pudo obtner la lista de peliculas")
             }
 
             // await es obligatorio: response.json() devuelve una Promise,
@@ -98,14 +98,14 @@ function Peliculas() {
             });
 
             // El backend responde JSON tanto en éxito como en error: { "Mensaje": "..." }
-            const datosResuesta = await response.json();
+            const datosRespuesta = await response.json();
 
             if (!response.ok) {
                 // response.ok es false en status 4xx/5xx (ej. 500 del backend)
-                throw new Error(datosResuesta.Mensaje)
+                throw new Error(datosRespuesta.Mensaje)
             }
 
-            setSucceMsg(datosResuesta.Mensaje)
+            setSucceMsg(datosRespuesta.Mensaje)
 
             // Reseteamos el formulario tras un registro exitoso
             setTitulo("");
@@ -113,7 +113,7 @@ function Peliculas() {
             setSinopsis("");
             setArchivo(null);
 
-            // NUEVO: refresca la lista de vehículos para que el recién registrado
+            // NUEVO: refresca la lista de peliculas para que el recién registrado
             // aparezca de inmediato, sin necesidad de recargar la página
             cargarPeliculas();
 
