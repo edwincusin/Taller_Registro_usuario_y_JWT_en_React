@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/apiConfig";
 
-function ListarPeliculas({ peliculas }) {
+function ListarPeliculas({ peliculas, actualizarPel }) {
 
     // Guarda las URLs locales (blob) de cada foto, indexadas por id de vehículo
     const [fotosUrl, setFotosUrl] = useState({});
     const { token } = useAuth();
+    // Feedback visual de éxito / error
+    const [errorMsg, setErrorMsg] = useState("");
+    const [succesMsg, setSucceMsg] = useState("");
 
     useEffect(() => {
         // Acumula las URLs creadas en este efecto para poder liberarlas en el cleanup
@@ -57,8 +60,50 @@ function ListarPeliculas({ peliculas }) {
 
     }, [peliculas, token]); // se vuelve a ejecutar si cambia la lista o el token
 
+
+
+
+    const eliminarPelicula = async (id) => {
+        const confirmado = window.confirm("¿Estás seguro de eliminar esta película?");
+        if (!confirmado) return; // si cancela, cortamos la ejecución aquí
+        // Limpiamos mensajes previos antes de un nuevo intento
+        setErrorMsg('');
+        setSucceMsg('');
+        try {
+            const response = await fetch(`${API_BASE_URL}auth/peliculas/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const datosResponse = await response.json()
+            if (!response.ok) {
+                throw new Error(datosResponse.Mensaje)
+            }
+            setSucceMsg(datosResponse.Mensaje)
+            actualizarPel();
+
+        } catch (error) {
+            setErrorMsg(error.message)
+        } finally {
+            setTimeout(() => {
+                setErrorMsg('');
+                setSucceMsg('');
+            }, 3000)
+        }
+
+
+    }
+
     return (
         <div>
+            <div className="auth-header">
+                {errorMsg && <p className="pelicula-msg-error">{errorMsg}</p>}
+                {succesMsg && <p className="pelicula-msg-success">{succesMsg}</p>}
+            </div>
+
+
+
             {peliculas.length === 0 ? (
                 <p className="pelicula-empty">No hay películas registradas</p>
             ) : (
@@ -77,7 +122,9 @@ function ListarPeliculas({ peliculas }) {
                                 </div>
                                 <div className="pelicula-card-acciones">
                                     <button className="btn-editar">Editar</button>
-                                    <button className="btn-eliminar">Eliminar</button>
+                                    <button className="btn-eliminar"
+                                        onClick={() => eliminarPelicula(pelicula.id)}
+                                    >Eliminar</button>
                                 </div>
                             </li>
                         )
