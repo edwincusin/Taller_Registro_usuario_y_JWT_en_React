@@ -75,7 +75,7 @@ function ListaVehiculos({ vehiculos }) {
                                     fotosUrl[vehiculo.id] && (
                                         <img src={fotosUrl[vehiculo.id]}
                                             alt="Fotos del vehicuslo"
-                                            width='150px' />
+                                            width='50px' />
                                     )
                                 }
                             </li>
