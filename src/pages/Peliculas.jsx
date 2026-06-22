@@ -129,7 +129,7 @@ function Peliculas() {
     return (
         <div> {/*este es el contenedor principal*/}
             <div className="auth-header">
-                <h1>GESTION DE PELICULAS</h1>
+                <h1>GESTIÓN DE PELÍCULAS</h1>
             </div>
 
             <button className="btn-toggle-formulario" onClick={() => setMostrarFormulario(!mostrarFormulario)}>
