@@ -416,13 +416,17 @@ body{
 .btn-secondary svg{
   margin-right:8px;
 }
+
+
 /* =========================
    GESTIÓN DE PELÍCULAS
    (todo namespaced bajo .pelicula-* / .formulario-pelicula
    para no afectar otros formularios del proyecto)
 ========================= */
+/* =========================
+   GESTIÓN DE PELÍCULAS
+========================= */
 
-/* Botón "+" para mostrar/ocultar formulario */
 .btn-toggle-formulario{
   border:none;
   border-radius:12px;
@@ -448,7 +452,6 @@ body{
   transform:scale(.98);
 }
 
-/* Contenedor del formulario de registro */
 .formulario-pelicula{
   background:var(--card);
   backdrop-filter:blur(12px);
@@ -509,7 +512,6 @@ body{
   color:#64748b;
 }
 
-/* Botón de envío del formulario, mismo lenguaje que btn-toggle-formulario */
 .formulario-pelicula .btn-guardar-pelicula{
   border:none;
   border-radius:12px;
@@ -535,7 +537,6 @@ body{
   transform:scale(.98);
 }
 
-/* Mensajes de feedback del formulario de películas */
 .formulario-pelicula .pelicula-msg-error{
   color:var(--danger);
   font-size:.85rem;
@@ -550,17 +551,17 @@ body{
   margin-top:12px;
 }
 
-/* Grid responsivo de cards */
+/* ===== GRID ===== */
 .grid-peliculas{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit, minmax(175px, 1fr));
+  gap:16px;
   list-style:none;
   margin:24px 0 0;
   padding:0;
 }
 
-/* Card individual */
+/* ===== CARD ===== */
 .pelicula-card{
   background:var(--card);
   backdrop-filter:blur(12px);
@@ -582,10 +583,12 @@ body{
 
 .pelicula-card img{
   width:100%;
-  aspect-ratio:2 / 3;
+  height:220px;
   object-fit:cover;
+  object-position:center top;
   display:block;
 }
+
 
 .pelicula-card-body{
   padding:16px;
@@ -593,7 +596,7 @@ body{
 
 .pelicula-card-titulo{
   font-family:'Orbitron',sans-serif;
-  font-size:16px;
+  font-size:14px;
   font-weight:700;
   letter-spacing:1px;
   margin:0 0 6px;
@@ -602,18 +605,22 @@ body{
 }
 
 .pelicula-card-genero{
-  font-size:12px;
+  font-size:11px;
   text-transform:uppercase;
   letter-spacing:1px;
   color:var(--primary);
-  margin:0 0 12px;
+  margin:0 0 10px;
 }
 
 .pelicula-card-sinopsis{
-  font-size:13px;
+  font-size:10px;
   color:#cbd5e1;
-  margin:0 0 14px;
+  margin:0 0 12px;
   line-height:1.4;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 
 .pelicula-card-acciones{
@@ -626,11 +633,11 @@ body{
   flex:1;
   border:none;
   border-radius:10px;
-  padding:10px 0;
+  padding:8px 0;
   cursor:pointer;
   font-family:'Orbitron',sans-serif;
   font-weight:700;
-  font-size:12px;
+  font-size:11px;
   text-transform:uppercase;
   transition:.3s;
   color:white;
@@ -661,10 +668,22 @@ body{
   transform:scale(.98);
 }
 
-/* Mensaje "no hay películas registradas" */
 .pelicula-empty{
   text-align:center;
   color:#64748b;
   font-size:.9rem;
   margin-top:20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(min-width:1024px){
+  .grid-peliculas{
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media(max-width:600px){
+  .grid-peliculas{
+    grid-template-columns:repeat(2, 1fr);
+  }
 }

@@ -35,15 +35,16 @@ export function App() {
               path="/vehiculos"
               element={<Vehiculos />}
             />
+            <Route
+              path="/peliculas"
+              element={<Peliculas />}
+            />{/*Registrar peliculas*/}
           </Route>
           <Route
             path="/registrar"
             element={<Registrar />}
           />{/*Registrar vehiculos*/}
-          <Route
-            path="/peliculas"
-            element={<Peliculas/>}
-          />{/*Registrar vehiculos*/}
+
           {/* RUTA COMODÍN — cualquier URL desconocida redirige al login */}
           <Route
             path="*"

@@ -73,7 +73,7 @@ function Peliculas() {
 
         // Validación mínima en cliente: la foto es obligatoria
         if (!archivo) {
-            setErrorMsg("Debe seleccionar una foto del vehiculo");
+            setErrorMsg("Debe seleccionar una foto de la pelicula");
             return;
         }
 
@@ -128,14 +128,17 @@ function Peliculas() {
 
     return (
         <div> {/*este es el contenedor principal*/}
-            <h1>GESTION DE PELICULAS</h1>
+            <div className="auth-header">
+                <h1>GESTION DE PELICULAS</h1>
+            </div>
+
             <button className="btn-toggle-formulario" onClick={() => setMostrarFormulario(!mostrarFormulario)}>
                 {mostrarFormulario ? "✕ Cancelar" : "+ Nueva Película"}
             </button>
 
             {mostrarFormulario && (
                 <div> {/*este es el contenedor DE FORMULARIO*/}
-                    <div>
+                    <div className="auth-header">
                         <h2>Registrar pelicula</h2>
                     </div>
 
@@ -197,10 +200,10 @@ function Peliculas() {
                             />
                         </div>
 
-                        <button type="submit" className="btn-toggle-formulario">Guardar Película</button>
+                        <button type="submit" className="btn-guardar-pelicula">Guardar Película</button>
                         <div>
-                            {errorMsg && <p>{errorMsg}</p>}
-                            {succesMsg && <p>{succesMsg}</p>}
+                            {errorMsg && <p className="pelicula-msg-error">{errorMsg}</p>}
+                            {succesMsg && <p className="pelicula-msg-success">{succesMsg}</p>}
                         </div>
                     </form>
                 </div>
@@ -208,8 +211,14 @@ function Peliculas() {
 
 
             <div>{/*este es el contenedor para las targetas de peliculas*/}
-                <h2>Lista peliculas</h2>
-                <div className="grid-peliculas">
+                <div className="auth-header">
+                    <h2>Lista peliculas</h2>
+                    <p style={{ color: "var(--primary)", fontSize: "14px", marginTop: "6px" }}>
+                        Total: {peliculas.length} películas
+                    </p>
+                </div>
+
+                <div>
                     <ListarPeliculas
                         peliculas={peliculas}
                     />

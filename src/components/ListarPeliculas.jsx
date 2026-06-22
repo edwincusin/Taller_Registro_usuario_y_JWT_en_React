@@ -57,34 +57,35 @@ function ListarPeliculas({ peliculas }) {
 
     }, [peliculas, token]); // se vuelve a ejecutar si cambia la lista o el token
 
-
     return (
-    <div>
-        <h2>Películas Registradas</h2>
-        {peliculas.length === 0 ? (
-            <p className="pelicula-empty">No hay películas registradas</p>
-        ) : (
-            <ul className="grid-peliculas" style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {peliculas.map((pelicula) => {
-                    return (
-                        <li key={pelicula.id} className="pelicula-card">
-                            {fotosUrl[pelicula.id] && (
-                                <img src={fotosUrl[pelicula.id]}
-                                    alt="Foto de la película" 
-                                    width='150px' />
-                            )}
-                            <div className="pelicula-card-body">
-                                <p className="pelicula-card-titulo">{pelicula.titulo}</p>
-                                <p className="pelicula-card-genero">{pelicula.genero}</p>
-                                <p className="pelicula-card-sinopsis">{pelicula.sinopsis}</p>
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-        )}
-    </div>
-)
+        <div>
+            {peliculas.length === 0 ? (
+                <p className="pelicula-empty">No hay películas registradas</p>
+            ) : (
+                <ul className="grid-peliculas" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                    {peliculas.map((pelicula) => {
+                        return (
+                            <li key={pelicula.id} className="pelicula-card">
+                                {fotosUrl[pelicula.id] && (
+                                    <img src={fotosUrl[pelicula.id]}
+                                        alt="Foto de la película" />
+                                )}
+                                <div className="pelicula-card-body">
+                                    <p className="pelicula-card-titulo">{pelicula.titulo}</p>
+                                    <p className="pelicula-card-genero">{pelicula.genero}</p>
+                                    <p className="pelicula-card-sinopsis">{pelicula.sinopis}</p>
+                                </div>
+                                <div className="pelicula-card-acciones">
+                                    <button className="btn-editar">Editar</button>
+                                    <button className="btn-eliminar">Eliminar</button>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+            )}
+        </div>
+    )
 }
 
 export default ListarPeliculas;
