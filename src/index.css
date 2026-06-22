@@ -416,3 +416,255 @@ body{
 .btn-secondary svg{
   margin-right:8px;
 }
+/* =========================
+   GESTIÓN DE PELÍCULAS
+   (todo namespaced bajo .pelicula-* / .formulario-pelicula
+   para no afectar otros formularios del proyecto)
+========================= */
+
+/* Botón "+" para mostrar/ocultar formulario */
+.btn-toggle-formulario{
+  border:none;
+  border-radius:12px;
+  padding:14px 24px;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  color:white;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  transition:.3s;
+  margin-bottom:25px;
+}
+
+.btn-toggle-formulario:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 0 15px rgba(0,200,255,.6),
+    0 0 30px rgba(0,200,255,.3);
+}
+
+.btn-toggle-formulario:active{
+  transform:scale(.98);
+}
+
+/* Contenedor del formulario de registro */
+.formulario-pelicula{
+  background:var(--card);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:30px;
+  margin-bottom:30px;
+  display:flex;
+  flex-direction:column;
+}
+
+.formulario-pelicula .campo{
+  display:flex;
+  flex-direction:column;
+  margin-bottom:18px;
+}
+
+.formulario-pelicula .campo label{
+  margin-bottom:8px;
+  font-size:.9rem;
+  color:#cbd5e1;
+}
+
+.formulario-pelicula .campo input,
+.formulario-pelicula .campo select,
+.formulario-pelicula .campo textarea{
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.05);
+  color:white;
+  font-family:'Orbitron',sans-serif;
+  transition:.3s;
+}
+
+.formulario-pelicula .campo input:focus,
+.formulario-pelicula .campo select:focus,
+.formulario-pelicula .campo textarea:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:
+    0 0 10px rgba(0,200,255,.4),
+    0 0 20px rgba(0,200,255,.2);
+}
+
+.formulario-pelicula .campo textarea{
+  resize:vertical;
+  min-height:90px;
+}
+
+.formulario-pelicula .campo option{
+  background:var(--dark);
+  color:white;
+}
+
+.formulario-pelicula .campo input::placeholder,
+.formulario-pelicula .campo textarea::placeholder{
+  color:#64748b;
+}
+
+/* Botón de envío del formulario, mismo lenguaje que btn-toggle-formulario */
+.formulario-pelicula .btn-guardar-pelicula{
+  border:none;
+  border-radius:12px;
+  padding:14px;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  color:white;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  transition:.3s;
+  margin-top:10px;
+}
+
+.formulario-pelicula .btn-guardar-pelicula:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 0 15px rgba(0,200,255,.6),
+    0 0 30px rgba(0,200,255,.3);
+}
+
+.formulario-pelicula .btn-guardar-pelicula:active{
+  transform:scale(.98);
+}
+
+/* Mensajes de feedback del formulario de películas */
+.formulario-pelicula .pelicula-msg-error{
+  color:var(--danger);
+  font-size:.85rem;
+  text-shadow:0 0 8px rgba(255,77,109,.5);
+  margin-top:12px;
+}
+
+.formulario-pelicula .pelicula-msg-success{
+  color:var(--success);
+  font-size:.85rem;
+  text-shadow:0 0 8px rgba(0,255,157,.5);
+  margin-top:12px;
+}
+
+/* Grid responsivo de cards */
+.grid-peliculas{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:20px;
+  list-style:none;
+  margin:24px 0 0;
+  padding:0;
+}
+
+/* Card individual */
+.pelicula-card{
+  background:var(--card);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:
+    0 0 15px rgba(0,200,255,.1),
+    0 0 30px rgba(0,102,255,.05);
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+
+.pelicula-card:hover{
+  transform:translateY(-6px);
+  box-shadow:
+    0 0 20px rgba(0,200,255,.35),
+    0 0 40px rgba(0,102,255,.2);
+}
+
+.pelicula-card img{
+  width:100%;
+  aspect-ratio:2 / 3;
+  object-fit:cover;
+  display:block;
+}
+
+.pelicula-card-body{
+  padding:16px;
+}
+
+.pelicula-card-titulo{
+  font-family:'Orbitron',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:1px;
+  margin:0 0 6px;
+  color:white;
+  text-shadow:0 0 6px rgba(0,200,255,.3);
+}
+
+.pelicula-card-genero{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--primary);
+  margin:0 0 12px;
+}
+
+.pelicula-card-sinopsis{
+  font-size:13px;
+  color:#cbd5e1;
+  margin:0 0 14px;
+  line-height:1.4;
+}
+
+.pelicula-card-acciones{
+  display:flex;
+  gap:8px;
+}
+
+.pelicula-card-acciones .btn-editar,
+.pelicula-card-acciones .btn-eliminar{
+  flex:1;
+  border:none;
+  border-radius:10px;
+  padding:10px 0;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  font-size:12px;
+  text-transform:uppercase;
+  transition:.3s;
+  color:white;
+}
+
+.pelicula-card-acciones .btn-editar{
+  background:#1e293b;
+}
+
+.pelicula-card-acciones .btn-editar:hover{
+  background:#334155;
+  box-shadow:0 0 10px rgba(0,200,255,.3);
+}
+
+.pelicula-card-acciones .btn-eliminar{
+  background:linear-gradient(90deg, #dc2626, #b91c1c);
+}
+
+.pelicula-card-acciones .btn-eliminar:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 0 12px rgba(220,38,38,.5),
+    0 0 24px rgba(220,38,38,.25);
+}
+
+.pelicula-card-acciones .btn-editar:active,
+.pelicula-card-acciones .btn-eliminar:active{
+  transform:scale(.98);
+}
+
+/* Mensaje "no hay películas registradas" */
+.pelicula-empty{
+  text-align:center;
+  color:#64748b;
+  font-size:.9rem;
+  margin-top:20px;
+}

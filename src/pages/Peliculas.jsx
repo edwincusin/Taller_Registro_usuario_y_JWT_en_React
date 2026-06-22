@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/apiConfig";
 import { useCallback, useEffect, useState } from "react";
-import ListaPeliculas from "../components/ListaPeliculas"; // (ajusta la ruta según donde lo crees)
+import ListarPeliculas from "../components/ListarPeliculas";
 
 
 function Peliculas() {
@@ -63,15 +63,6 @@ function Peliculas() {
         cargarPeliculas();
     }, [cargarPeliculas])
 
-    // Se ejecuta cada vez que el usuario selecciona un archivo en el input type="file"
-    const manejarArchivo = (e) => {
-        // e.target.files es un FileList (aunque solo se permita 1 archivo),
-        // por eso se accede al índice [0] para obtener el File real
-        setArchivo(e.target.files[0])
-    }
-
-
-
     // Se ejecuta al enviar el formulario
     const manejarSubmit = async (e) => {
         e.preventDefault(); // evita que el navegador recargue la página
@@ -95,7 +86,7 @@ function Peliculas() {
         formData.append("sinopsis", sinopsis);  // debe coincidir con @RequestParam("sinopsis")
 
         try {
-            const response = await fetch(`${API_BASE_URL}auth/peliculas/`, {
+            const response = await fetch(`${API_BASE_URL}auth/peliculas`, {
                 method: 'POST',
                 headers: {
                     // Token JWT requerido porque el endpoint está protegido
@@ -136,94 +127,96 @@ function Peliculas() {
 
 
     return (
-
         <div> {/*este es el contenedor principal*/}
             <h1>GESTION DE PELICULAS</h1>
+            <button className="btn-toggle-formulario" onClick={() => setMostrarFormulario(!mostrarFormulario)}>
+                {mostrarFormulario ? "✕ Cancelar" : "+ Nueva Película"}
+            </button>
 
-            <div> {/*este es el contenedor DE FORMULARIO*/}
-                <div>
-                    <h2>Registrar pelicula</h2>
-                </div>
-
-                <form className="formulario-pelicula" onSubmit={manejarSubmit}>
-                    <div className="campo">
-                        <label htmlFor="titulo">Título</label>
-                        <input
-                            type="text"
-                            id="titulo"
-                            name="titulo"
-                            placeholder="Ej: Matrix"
-                            required
-                            value={titulo}
-                            onChange={(e) => setTitulo(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="campo">
-                        <label htmlFor="genero">Género</label>
-                        <select id="genero" name="genero" defaultValue=""
-                            value={genero}
-                            onChange={(e) => setGenero(e.target.value)}
-                        >
-                            <option value="" disabled>Selecciona un género</option>
-                            <option value="Accion">Acción</option>
-                            <option value="Comedia">Comedia</option>
-                            <option value="Drama">Drama</option>
-                            <option value="Terror">Terror</option>
-                            <option value="CienciaFiccion">Ciencia ficción</option>
-                            <option value="Fantasia">Fantasía</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Suspenso">Suspenso</option>
-                            <option value="Animacion">Animación</option>
-                            <option value="Documental">Documental</option>
-                        </select>
-                    </div>
-
-                    <div className="campo">
-                        <label htmlFor="sinopsis">Sinopsis</label>
-                        <textarea
-                            id="sinopsis"
-                            name="sinopsis"
-                            rows={4}
-                            placeholder="Breve descripción de la película..."
-                            required
-                            value={sinopsis}
-                            onChange={(e) => setSinopsis(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="campo">
-                        <label htmlFor="foto">Foto / Póster</label>
-                        <input
-                            type="file"
-                            id="foto"
-                            name="foto"
-                            accept="image/*"
-                            onChange={(e) => setArchivo(e.target.files[0])}
-                        />
-                    </div>
-
-                    <button type="submit">Guardar Película</button>
+            {mostrarFormulario && (
+                <div> {/*este es el contenedor DE FORMULARIO*/}
                     <div>
-                        {errorMsg && <p>{errorMsg}</p>}
-                        {succesMsg && <p>{succesMsg}</p>}
+                        <h2>Registrar pelicula</h2>
                     </div>
-                </form>
-            </div>
+
+                    <form className="formulario-pelicula" onSubmit={manejarSubmit}>
+                        <div className="campo">
+                            <label htmlFor="titulo">Título</label>
+                            <input
+                                type="text"
+                                id="titulo"
+                                name="titulo"
+                                placeholder="Ej: Matrix"
+                                required
+                                value={titulo}
+                                onChange={(e) => setTitulo(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="campo">
+                            <label htmlFor="genero">Género</label>
+                            <select id="genero" name="genero"
+                                value={genero}
+                                onChange={(e) => setGenero(e.target.value)}
+                            >
+                                <option value="" disabled>Selecciona un género</option>
+                                <option value="Accion">Acción</option>
+                                <option value="Comedia">Comedia</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Terror">Terror</option>
+                                <option value="CienciaFiccion">Ciencia ficción</option>
+                                <option value="Fantasia">Fantasía</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Suspenso">Suspenso</option>
+                                <option value="Animacion">Animación</option>
+                                <option value="Documental">Documental</option>
+                            </select>
+                        </div>
+
+                        <div className="campo">
+                            <label htmlFor="sinopsis">Sinopsis</label>
+                            <textarea
+                                id="sinopsis"
+                                name="sinopsis"
+                                rows={4}
+                                placeholder="Breve descripción de la película..."
+                                required
+                                value={sinopsis}
+                                onChange={(e) => setSinopsis(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="campo">
+                            <label htmlFor="foto">Foto / Póster</label>
+                            <input
+                                type="file"
+                                id="foto"
+                                name="foto"
+                                accept="image/*"
+                                onChange={(e) => setArchivo(e.target.files[0])}
+                            />
+                        </div>
+
+                        <button type="submit" className="btn-toggle-formulario">Guardar Película</button>
+                        <div>
+                            {errorMsg && <p>{errorMsg}</p>}
+                            {succesMsg && <p>{succesMsg}</p>}
+                        </div>
+                    </form>
+                </div>
+            )}
+
 
             <div>{/*este es el contenedor para las targetas de peliculas*/}
                 <h2>Lista peliculas</h2>
-                {/* NUEVO: se pasa la lista como prop; ListaVehiculos descarga
-                    cada foto protegida y renderiza la tarjeta de cada vehículo */}
-                <div>
-                    <ListaPeliculas
+                <div className="grid-peliculas">
+                    <ListarPeliculas
                         peliculas={peliculas}
                     />
                 </div>
 
             </div>
         </div>
-
     )
 }
 
