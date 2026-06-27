@@ -139,7 +139,7 @@ function Peliculas() {
             {mostrarFormulario && (
                 <div> {/*este es el contenedor DE FORMULARIO*/}
                     <div className="auth-header">
-                        <h2>Registrar pelicula</h2>
+                        <h2>Registrar nueva película</h2>
                     </div>
 
                     <form className="formulario-pelicula" onSubmit={manejarSubmit}>
@@ -212,7 +212,7 @@ function Peliculas() {
 
             <div>{/*este es el contenedor para las targetas de peliculas*/}
                 <div className="auth-header">
-                    <h2>Lista peliculas</h2>
+                    <h2>Lista</h2>
                     <p style={{ color: "var(--primary)", fontSize: "14px", marginTop: "6px" }}>
                         Total: {peliculas.length} películas
                     </p>
