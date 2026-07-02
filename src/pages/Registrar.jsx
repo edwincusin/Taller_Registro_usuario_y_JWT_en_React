@@ -19,6 +19,7 @@ function Registrar() {
     // ═══════════════════════════════════════════
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmarPassword, setConfirmarPassword] = useState('');
     const [rol, setRol] = useState('');
     const [errores, setErrores] = useState({}); // errores de validación por campo (frontend)
 
@@ -88,6 +89,13 @@ function Registrar() {
         if (rol.trim() === '') {
             err.rol = "Campo obligatorio"
         }
+        if (confirmarPassword.trim() === '') {
+            err.confirmarPassword = "Campo obligatorio"
+        }
+        if (confirmarPassword!==password) {
+            err.confirmarPassword = "Contraseñas no coiciden"
+        }
+
         setErrores(err);   // actualiza el estado para mostrar en el JSX
         return err;        // devuelve el valor fresco (el estado tarda en actualizarse)
     }
@@ -131,6 +139,23 @@ function Registrar() {
                     />
                 </div>
                 {errores.password && <p className="field-error">{errores.password}</p>}
+
+                {/* {-------------------------------------------------------------} */}
+
+                <div className="form-group">
+                    <label>
+                        <FaLock className="input-icon" />
+                        Confirmar Contraseña*:
+                    </label>
+                    <input type="password"
+                        className="form-input"
+                        value={confirmarPassword}
+                        onChange={(e) => setConfirmarPassword(e.target.value)}
+                        placeholder="Confirmar"
+                    />
+                </div>
+                {errores.confirmarPassword && <p className="field-error">{errores.confirmarPassword}</p>}
+
 
                 <div className="form-group">
                     <label>

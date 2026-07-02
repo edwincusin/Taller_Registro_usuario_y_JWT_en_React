@@ -2,6 +2,8 @@ import { useEffect, useState } from "react" // useEffect=ejecuta código al carg
 import { useAuth } from "../context/AuthContext"; // trae token y logout del contexto global
 import { useNavigate } from "react-router-dom"; // redirige al login después del logout
 import { API_BASE_URL } from "../config/apiConfig"; // URL base de Spring Boot ej: http://localhost:8080
+import { useAppContext } from "../context/AppContext";
+
 import {
     FaUserCircle,
     FaShieldAlt,
@@ -22,6 +24,8 @@ function Perfil() {
     // HERRAMIENTAS EXTERNAS
     // ═══════════════════════════════════════════
     const { token, logout } = useAuth(); // token=JWT para autenticar | logout=limpia sesión del contexto
+
+    const {mensajeBienvenida , nombreEmpresa} = useAppContext();
     const navigate = useNavigate(); // para redirigir al login tras el logout
 
     // ═══════════════════════════════════════════
@@ -87,6 +91,8 @@ function Perfil() {
                         <FaUserCircle className="title-icon" />
                         PERFIL DE USUARIO
                     </h2>
+
+                    <p>{mensajeBienvenida} {nombreEmpresa}</p>
 
                     <button
                         className="btn-secondary"

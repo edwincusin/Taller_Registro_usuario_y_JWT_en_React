@@ -6,7 +6,8 @@ import {
     FaRobot,
     FaUser,
     FaLock,
-    FaSignInAlt
+    FaSignInAlt,
+    FaExclamationTriangle
 } from "react-icons/fa";
 
 function Login() {
@@ -104,7 +105,7 @@ function Login() {
                 </div>
                 <div className="form-actions">
                     <button className="btn-primary" type="submit">
-                        <FaSignInAlt />
+                        <FaSignInAlt/>
                         &nbsp;Ingresar
                     </button>
                 </div>

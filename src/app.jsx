@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute"; // guardián → verif
 import Registrar from "./pages/Registrar";
 import Vehiculos from "./pages/Vehiculos";
 import Peliculas from "./pages/Peliculas";
+import { AppProvider } from "./context/AppContext";
 
 export function App() {
 
@@ -16,42 +17,55 @@ export function App() {
     // token, login y logout estén disponibles
     // en cualquier componente de la app
     // ═══════════════════════════════════════════
+
+
+
     <AuthProvider>
       {/* SISTEMA DE NAVEGACIÓN — sin esto las rutas no funcionan */}
-      <BrowserRouter>
-        <Routes>
-          {/* RUTA PÚBLICA — cualquiera puede entrar sin token */}
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-          {/* RUTAS PROTEGIDAS — ProtectedRoute verifica el token antes de mostrar */}
-          <Route element={<ProtectedRoute />}>
-            <Route
-              path="/perfil"
-              element={<Perfil />}
-            />
-            <Route
-              path="/vehiculos"
-              element={<Vehiculos />}
-            />
-            <Route
-              path="/peliculas"
-              element={<Peliculas />}
-            />{/*Registrar peliculas*/}
-          </Route>
-          <Route
-            path="/registrar"
-            element={<Registrar />}
-          />{/*Registrar vehiculos*/}
 
-          {/* RUTA COMODÍN — cualquier URL desconocida redirige al login */}
-          <Route
-            path="*"
-            element={<Navigate to="/login" replace />}
-          />
-        </Routes>
-      </BrowserRouter>
+      <AppProvider>
+
+
+        <BrowserRouter>
+          <Routes>
+            {/* RUTA PÚBLICA — cualquiera puede entrar sin token */}
+            <Route
+              path="/login"
+              element={<Login />}
+            />
+            {/* RUTAS PROTEGIDAS — ProtectedRoute verifica el token antes de mostrar */}
+            <Route element={<ProtectedRoute />}>
+              <Route
+                path="/perfil"
+                element={<Perfil />}
+              />
+              <Route
+                path="/vehiculos"
+                element={<Vehiculos />}
+              />
+              <Route
+                path="/peliculas"
+                element={<Peliculas />}
+              />{/*Registrar peliculas*/}
+
+
+            </Route>
+
+
+            <Route
+              path="/registrar"
+              element={<Registrar />}
+            />{/*Registrar vehiculos*/}
+
+
+            {/* RUTA COMODÍN — cualquier URL desconocida redirige al login */}
+            <Route
+              path="*"
+              element={<Navigate to="/login" replace />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </AppProvider>
     </AuthProvider>
   )
 }
