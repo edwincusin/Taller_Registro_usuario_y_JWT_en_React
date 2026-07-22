@@ -66,7 +66,7 @@ function Perfil() {
     const manejarLogout = async () => {
         try {
             // 1. Avisa a Spring Boot que revoque el token del lado del servidor
-            await fetch(`${API_BASE_URL}/auth/logout`, {
+            await fetch(`${API_BASE_URL}auth/logout`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

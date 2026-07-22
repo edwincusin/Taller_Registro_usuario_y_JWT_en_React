@@ -69,7 +69,7 @@ function ListaVehiculos({ vehiculos }) {
                             <li key={vehiculo.id}>
                                 <p>Marca: {vehiculo.marca}</p>
                                 <p>Modelo: {vehiculo.modelo}</p>
-                                <p>Tipo: {vehiculo.mimeType}</p>
+                                <p>Tipo: {vehiculo.mime_type}</p>
                                 {
                                     // Solo muestra la imagen si ya terminó de descargarse
                                     fotosUrl[vehiculo.id] && (
